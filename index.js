@@ -12,24 +12,28 @@ client.login(auth.token);
 
 const options = {};
 
+const BAD_WORDS = ['jquery', 'jqueery', 'jqeury', 'jqry', 'jqerty', 'jqueri'];
+
+const lowerTrim = s => s.toLowerCase().trim();
+
+const arrIncludesStr = arr => str =>
+  arr.some(el => lowerTrim(str).includes(lowerTrim(el)));
+
+const includesBadWords = arrIncludesStr(BAD_WORDS);
+
 client.on('message', async msg => {
-  if (msg.content === 'ping') {
+  if (msg.author.bot) return;
+
+  if (includesBadWords(msg.content)) {
     const [{ title, link }, ...rest] = await googleIt({
       options,
       query: msg.content,
     });
 
-    console.log(title, link);
-
-    Promise.all([
-      msg.reply(
-        `Why didn't you just google it?
+    msg.reply(
+      `Why didn't you just google it? 
       ${title}
       ${link}`
-      ),
-      msg.react('🍎'),
-      msg.react('🍊'),
-      msg.react('🍇'),
-    ]);
+    );
   }
 });
