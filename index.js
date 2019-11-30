@@ -17,7 +17,7 @@ const BAD_WORDS = ['jquery', 'jqueery', 'jqeury', 'jqry', 'jqerty', 'jqueri'];
 const lowerTrim = s => s.toLowerCase().trim();
 
 const arrIncludesStr = arr => str =>
-  arr.some(el => lowerTrim(str).includes(lowerTrim(el)));
+  arr.some(el => lowerTrim(str).includes(el));
 
 const includesBadWords = arrIncludesStr(BAD_WORDS);
 
